@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Naap - ML TAILOR</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="admin-body">
+        
+        <aside class="sidebar">
+            <h2>ML TAILOR</h2>
+            <nav>
+                <a href="admin-dashboard.html">📊 Dashboard</a>
+                <a href="admin-orders.html">👗 Orders & Tracking</a>
+                <a href="admin-designs.html">🖼️ Designs & Gallery</a>
+                <a href="admin-measurements.html" class="active">📏 Digital Naap</a>
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0;">
+                <a href="#" id="logoutBtn">🚪 Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-flex">
+                <h3>Digital Measurements (Naap Book)</h3>
+            </div>
+
+            <div class="card" style="text-align: left; margin-bottom: 30px;">
+                <h4>➕ Add New Measurement</h4>
+                <br>
+                <form id="naapForm" class="grid-3" style="grid-template-columns: 1fr 1fr 1fr;">
+                    
+                    <div>
+                        <label>Customer Name</label>
+                        <input type="text" id="custName" placeholder="Ex: Suman Devi" required>
+                    </div>
+
+                    <div>
+                        <label>Mobile Number</label>
+                        <input type="tel" id="custMobile" placeholder="Ex: 98765xxxxx">
+                    </div>
+
+                    <div>
+                        <label>Outfit Type</label>
+                        <select id="outfitType" required>
+
+                        </select>
+                    </div>
+
+                    <div style="grid-column: span 3;">
+                        <label>Detailed Measurements</label>
+                        <textarea id="measurementsData" rows="4" placeholder="Example:
+Length: 42
+Chest: 36
+Waist: 32
+Shoulder: 14
+Sleeve: 18"></textarea>
+                    </div>
+
+                    <div style="grid-column: span 3;">
+                        <button type="submit" class="btn" style="background: var(--secondary-color);">Save to Digital Book</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card" style="text-align: left;">
+                <div class="header-flex">
+                    <h4>Saved Measurements</h4>
+                    <input type="text" id="searchInput" placeholder="🔍 Search by Name or Mobile..." style="width: 250px; margin-bottom: 0;">
+                </div>
+                
+                <div style="overflow-x: auto; margin-top: 15px;">
+                    <table id="naapTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Outfit</th>
+                                <th>Measurements</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="js/measurements.js"></script>
+    <script type="module" src="js/auth.js"></script>
+
+    <div id="editNaapModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('editNaapModal').style.display='none'">&times;</span>
+    <h3>Edit Measurement</h3>
+    <br>
+    <input type="hidden" id="editNaapId">
+    <label>Customer Name</label>
+    <input type="text" id="editNaapName">
+    <label>Outfit</label>
+    <select id="editNaapOutfit"></select>
+    <label>Measurements</label>
+    <textarea id="editNaapData" rows="6"></textarea>
+    <button class="btn" onclick="saveEditedNaap()">Update Measurement</button>
+  </div>
+</div>
+</body>
+</html>

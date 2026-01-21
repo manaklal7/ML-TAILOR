@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - ML TAILOR</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <div class="logo">
+    <img src="images/logo.png" alt="ML Tailor Logo" class="logo-img">
+    
+    <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+        <h1 style="font-size: 1.5rem; margin: 0;">ML TAILOR</h1>
+        <span style="font-size: 0.8rem; color: #ddd;">Ladies Tailor Specialist</span>
+    </div>
+</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tracking-box">
+            <h2>Track Your Order</h2>
+            <p>Enter your Order ID given at the shop</p>
+            <br>
+            <input type="text" id="orderInput" placeholder="Enter Order ID (e.g., ORD-1234)">
+            <button id="trackBtn" class="btn">Track Status</button>
+            
+            <div id="resultArea" style="margin-top: 30px; display: none;">
+                <h3 id="orderStatusText">Status: Pending</h3>
+                <p><strong>Outfit:</strong> <span id="outfitName">--</span></p>
+                <p><strong>Customer:</strong> <span id="customerName">--</span></p> <div class="status-steps">
+                    <div class="step" id="step-cutting">
+                        <div class="step-icon">✂️</div>
+                        <p>Cutting</p>
+                    </div>
+                    <div class="step" id="step-stitching">
+                        <div class="step-icon">🧵</div>
+                        <p>Stitching</p>
+                    </div>
+                    <div class="step" id="step-trial">
+                        <div class="step-icon">👗</div>
+                        <p>Trial Ready</p>
+                    </div>
+                    <div class="step" id="step-completed">
+                        <div class="step-icon">✅</div>
+                        <p>Completed</p>
+                    </div>
+                </div>
+            </div>
+
+            <p id="errorMsg" style="color: red; display: none; margin-top: 20px;">Order not found!</p>
+        </div>
+    </div>
+
+    <script type="module" src="js/orders.js"></script>
+
+</body>
+</html>

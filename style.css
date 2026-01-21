@@ -1,0 +1,260 @@
+/* css/style.css */
+
+/* --- 1. Global Reset & Variables --- */
+:root {
+    --primary-color: #d81b60; /* Pinkish Red - Ladies Tailor Theme */
+    --secondary-color: #4a148c; /* Deep Purple */
+    --accent-color: #ffca28; /* Gold */
+    --text-dark: #333;
+    --text-light: #f4f4f4;
+    --bg-light: #f9f9f9;
+    --border-color: #ddd;
+    --sidebar-width: 250px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* --- 2. Layout & Typography --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2, h3 { margin-bottom: 15px; color: var(--secondary-color); }
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.btn:hover { background: #ad1457; }
+.btn-secondary { background: #555; }
+.btn-small { padding: 5px 10px; font-size: 0.9rem; }
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* --- 3. Navbar (Public) --- */
+.navbar {
+    background: var(--secondary-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.nav-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo h1 { color: var(--accent-color); margin: 0; font-size: 1.8rem; }
+.logo span { font-size: 0.9rem; color: #ddd; display: block; }
+.nav-links a { margin-left: 20px; color: white; font-weight: 500; }
+.nav-links a:hover { color: var(--accent-color); }
+
+/* --- 4. Hero Section --- */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/1600x900/?fabric,tailor');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+.hero h2 { color: var(--accent-color); font-size: 2.5rem; }
+
+/* --- 5. Cards & Grid --- */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* --- 6. Order Tracking UI --- */
+.tracking-box {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.status-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    position: relative;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    opacity: 0.5;
+}
+.step.active { opacity: 1; font-weight: bold; color: var(--primary-color); }
+.step-icon {
+    width: 30px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    line-height: 30px;
+}
+.step.active .step-icon { background: var(--primary-color); color: white; }
+
+/* --- 7. Admin Panel Layout --- */
+.admin-body { display: flex; height: 100vh; overflow: hidden; }
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--secondary-color);
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar h2 { color: var(--accent-color); margin-bottom: 30px; }
+.sidebar a {
+    color: #ccc;
+    padding: 12px;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Utilities --- */
+.hidden { display: none !important; }
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: white;
+    background: #777;
+}
+.badge-cutting { background: #ff9800; }
+.badge-stitching { background: #2196f3; }
+.badge-ready { background: #9c27b0; }
+.badge-completed { background: #4caf50; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .admin-body { flex-direction: column; height: auto; }
+    .sidebar { width: 100%; }
+    .nav-flex { flex-direction: column; text-align: center; }
+    .nav-links { margin-top: 15px; }
+    .nav-links a { margin: 0 10px; }
+}
+
+/* --- Modal (Popup) Styles --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto; /* 10% from top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* Logo Styles */
+.logo-img {
+    height: 50px; /* Logo ki unchai */
+    width: auto;  /* Chaudai apne aap set hogi */
+    vertical-align: middle;
+}
+
+/* Admin Sidebar Logo */
+.sidebar .logo-img {
+    height: 80px; /* Admin me thoda bada logo */
+    margin-bottom: 10px;
+    display: block;
+}

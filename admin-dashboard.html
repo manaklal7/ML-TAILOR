@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ML TAILOR</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="admin-body">
+        
+        <aside class="sidebar">
+            <h2>ML TAILOR</h2>
+            <nav>
+                <a href="admin-dashboard.html" class="active">📊 Dashboard</a>
+                <a href="admin-orders.html">👗 Orders & Tracking</a>
+                <a href="admin-designs.html">🖼️ Designs & Gallery</a>
+                <a href="admin-measurements.html">📏 Digital Naap</a>
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0;">
+                <a href="#" id="logoutBtn">🚪 Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-flex">
+                <h3>Admin Dashboard</h3>
+                <span id="adminEmailDisplay" style="font-size: 0.9rem; color: #666;">Loading...</span>
+            </div>
+
+            <div class="grid-3">
+                <div class="stat-card">
+                    <h3>Total Orders</h3>
+                    <h1 id="totalOrdersCount">0</h1>
+                </div>
+                <div class="stat-card" style="border-left-color: var(--accent-color);">
+                    <h3>Pending</h3>
+                    <h1 id="pendingOrdersCount">0</h1>
+                </div>
+                <div class="stat-card" style="border-left-color: var(--secondary-color);">
+                    <h3>Total Designs</h3>
+                    <h1 id="totalDesignsCount">0</h1>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h3>Quick Actions</h3>
+                <br>
+                <a href="admin-orders.html" class="btn">New Order</a>
+                <a href="admin-designs.html" class="btn btn-secondary">Upload Design</a>
+            </div>
+
+<div class="card" style="margin-top: 30px; text-align: left;">
+    <h4>⚙️ Manage Categories (Outfit Types)</h4>
+    <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">Yeh categories Order, Naap aur Designs teeno jagah dikhengi.</p>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" id="newCategoryInput" placeholder="New Category Name (e.g. Gown)">
+        <button id="addCategoryBtn" class="btn">Add</button>
+    </div>
+
+    <div id="categoryListBadge" style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <p>Loading...</p>
+    </div>
+</div>
+
+<style>
+    .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+    .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 8px; }
+    .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .close:hover { color: black; }
+</style>
+
+<script type="module">
+    import { db, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, onAuthStateChanged } from "./js/firebase.js";
+    import { auth } from "./js/firebase.js"; // Import auth correctly
+
+    // Display Email Logic
+    onAuthStateChanged(auth, user => {
+        if(user) document.getElementById('adminEmailDisplay').innerText = user.email;
+    });
+
+    // ... (Old Stats Logic wahi rahne de) ...
+
+    // --- CATEGORY LOGIC ---
+    const categoryListBadge = document.getElementById('categoryListBadge');
+    const addCategoryBtn = document.getElementById('addCategoryBtn');
+    const newCategoryInput = document.getElementById('newCategoryInput');
+
+    // 1. Load Categories
+    async function loadCategories() {
+        categoryListBadge.innerHTML = 'Loading...';
+        const q = query(collection(db, "categories"), orderBy("name"));
+        const snapshot = await getDocs(q);
+        categoryListBadge.innerHTML = '';
+
+        if(snapshot.empty) {
+            // Agar khali hai to default add kar do
+            await addDoc(collection(db, "categories"), { name: "Blouse" });
+            await addDoc(collection(db, "categories"), { name: "Salwar Suit" });
+            loadCategories(); // Reload
+            return;
+        }
+
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            badge.style.background = '#4a148c';
+            badge.style.padding = '8px 12px';
+            badge.style.fontSize = '1rem';
+            badge.innerHTML = `${data.name} <span style="cursor:pointer; margin-left:10px; color:#ffca28;" onclick="window.deleteCategory('${docSnap.id}')">✖</span>`;
+            categoryListBadge.appendChild(badge);
+        });
+    }
+
+    // 2. Add Category
+    addCategoryBtn.addEventListener('click', async () => {
+        const name = newCategoryInput.value.trim();
+        if(!name) return alert("Naam likho!");
+        
+        await addDoc(collection(db, "categories"), { name: name });
+        newCategoryInput.value = '';
+        loadCategories();
+    });
+
+    // 3. Delete Category
+    window.deleteCategory = async (id) => {
+        if(confirm("Delete this category?")) {
+            await deleteDoc(doc(db, "categories", id));
+            loadCategories();
+        }
+    }
+
+    loadCategories();
+</script>
+
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db, collection, getDocs, query, where } from "./js/firebase.js";
+        import "./js/auth.js"; // For security check
+
+        // Display Admin Email
+        auth.onAuthStateChanged(user => {
+            if(user) document.getElementById('adminEmailDisplay').innerText = user.email;
+        });
+
+        // Load Simple Stats
+        async function loadStats() {
+            try {
+                // Count Orders
+                const ordersSnap = await getDocs(collection(db, "orders"));
+                document.getElementById('totalOrdersCount').innerText = ordersSnap.size;
+
+                // Count Pending Orders (Jinka status 'Completed' nahi hai)
+                const q = query(collection(db, "orders"), where("status", "!=", "Completed"));
+                const pendingSnap = await getDocs(q);
+                document.getElementById('pendingOrdersCount').innerText = pendingSnap.size;
+
+                // Count Designs
+                const designsSnap = await getDocs(collection(db, "designs"));
+                document.getElementById('totalDesignsCount').innerText = designsSnap.size;
+
+            } catch (error) {
+                console.log("Stats loading error:", error);
+            }
+        }
+        loadStats();
+    </script>
+</body>
+</html>

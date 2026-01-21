@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - ML TAILOR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f4f4f4; color: #333; }
+        select.status-select { padding: 5px; border-radius: 4px; }
+        .modal { display: none; /* Hidden by default */ }
+    </style>
+</head>
+<body>
+
+    <div class="admin-body">
+        
+        <aside class="sidebar">
+            <h2>ML TAILOR</h2>
+            <nav>
+                <a href="admin-dashboard.html">📊 Dashboard</a>
+                <a href="admin-orders.html" class="active">👗 Orders & Tracking</a>
+                <a href="admin-designs.html">🖼️ Designs & Gallery</a>
+                <a href="admin-measurements.html">📏 Digital Naap</a>
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0;">
+                <a href="#" id="logoutBtn">🚪 Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-flex">
+                <h3>Order Management</h3>
+            </div>
+
+            <div class="card" style="text-align: left; margin-bottom: 30px;">
+                <h4>➕ Create New Order</h4>
+                <br>
+                <form id="createOrderForm" class="grid-3" style="grid-template-columns: 1fr 1fr 1fr;">
+                    
+                    <div>
+                        <label>Customer Name</label>
+                        <input type="text" id="customerName" placeholder="Ex: Suman Devi" required>
+                    </div>
+
+                    <div>
+                        <label>Mobile Number</label>
+                        <input type="tel" id="customerMobile" placeholder="Ex: 98765xxxxx">
+                    </div>
+
+                    <div>
+                        <label>Outfit Type</label>
+                        <select id="outfitType" required>
+                            <option value="">Select Outfit...</option>
+                        </select>
+                    </div>
+
+                    <div style="grid-column: span 3;">
+                        <label>Measurements / Notes (Naap)</label>
+                        <textarea id="orderNotes" rows="2" placeholder="Ex: Length 40, Chest 36... (Or refer to Digital Naap)"></textarea>
+                    </div>
+
+                    <div style="grid-column: span 3;">
+                        <button type="submit" class="btn">Generate Order ID & Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card" style="text-align: left;">
+                <h4>Recent Orders</h4>
+                <div style="overflow-x: auto;">
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Outfit</th>
+                                <th>Status (Update Here)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="js/orders-admin.js"></script>
+    <script type="module" src="js/auth.js"></script>
+
+    <div id="editOrderModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('editOrderModal').style.display='none'">&times;</span>
+    <h3>Edit Order</h3>
+    <br>
+    <input type="hidden" id="editDocId">
+    <label>Customer Name</label>
+    <input type="text" id="editName">
+    <label>Outfit</label>
+    <select id="editOutfit"></select> <label>Notes</label>
+    <textarea id="editNotes" rows="3"></textarea>
+    <button class="btn" onclick="saveEditedOrder()">Update Order</button>
+  </div>
+</div>
+
+</body>
+</html>
