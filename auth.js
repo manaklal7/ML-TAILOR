@@ -1,5 +1,5 @@
 // js/auth.js
-import { auth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "./firebase.js";
+import { auth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase.js";
 
 const loginForm = document.getElementById('loginForm');
 const logoutBtn = document.getElementById('logoutBtn');
@@ -59,4 +59,5 @@ onAuthStateChanged(auth, (user) => {
             window.location.href = "admin-login.html";
         }
     }
+
 });
