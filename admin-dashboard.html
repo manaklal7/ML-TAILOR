@@ -139,8 +139,8 @@
     </div>
 
     <script type="module">
-        import { auth, db, collection, getDocs, query, where } from "./js/firebase.js";
-        import "./js/auth.js"; // For security check
+        import { auth, db, collection, getDocs, query, where } from "firebase.js";
+        import "auth.js"; // For security check
 
         // Display Admin Email
         auth.onAuthStateChanged(user => {
@@ -172,3 +172,4 @@
 </body>
 
 </html>
+
