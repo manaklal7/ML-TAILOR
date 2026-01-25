@@ -73,7 +73,7 @@
 
 <script type="module">
     import { db, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, onAuthStateChanged } from "./js/firebase.js";
-    import { auth } from "./js/firebase.js"; // Import auth correctly
+    import { auth } from "firebase.js"; // Import auth correctly
 
     // Display Email Logic
     onAuthStateChanged(auth, user => {
@@ -172,4 +172,5 @@
 </body>
 
 </html>
+
 
