@@ -29,7 +29,7 @@ async function loadServices() {
             const card = `
                 <div class="card" style="text-align: left;">
                     <h4>${data.name}</h4>
-                    <p style="color: #666; font-size: 0.9rem;">Starting from: ₹${data.basePrice || 'On Request'}</p>
+                    <p style="color: #666; font-size: 0.9rem;">Starting from: ${data.basePrice || 'Depend On Design'}</p>
                 </div>
             `;
             servicesList.innerHTML += card;
@@ -110,4 +110,5 @@ window.filterDesigns = function(category) {
 document.addEventListener('DOMContentLoaded', () => {
     loadServices();
     loadDesigns();
+
 });
